@@ -5,6 +5,7 @@ this is just a simple fast food restaurant system,
 the original source is [here](https://github.com/thamoui/burgerCode).
 
 <hr>
+
 - added basic *"user"* or employees registration and login
 
 - added cart for ordering menu
