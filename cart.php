@@ -201,7 +201,7 @@ if (!isset($_SESSION['username'])) {
     <input type="number" name="cash" id="cash"> <b> K</b><br>
     <span class="help-inline">' . $cashError . '</span>
     </div>
-    <div class="caption">
+    <div class="caption site">
                 <button class="btn btn-order" type="submit"><span class="glyphicon glyphicon-shopping-cart"></span> Order Sekarang </button>
     </div> 
     ';

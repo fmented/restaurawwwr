@@ -12,7 +12,7 @@
     }
     Database::disconnect();
 
-    $nameError = $usernameError = $pwdError = $pwd2Error = $statusError = $name = $username = $pwd = $status = $pwd2 = "";
+    $nameError = $usernameError = $pwdError = $pwd2Error  = $name = $username = $pwd = $pwd2 = "";
 
     if(!empty($_POST)) 
     {
@@ -20,7 +20,6 @@
         $username        = checkInput($_POST['username']);
         $pwd              = checkInput($_POST['pwd']);
         $pwd2              = checkInput($_POST['pwd2']);
-        $status           = checkInput($_POST['status']); 
         $isSuccess          = true;
 
         
@@ -48,11 +47,7 @@
             $pwd2Error = 'Field tidak boleh kosong';
             $isSuccess = false;
         } 
-        if(empty($status)) 
-        {
-            $statusError = 'Field tidak boleh kosong';
-            $isSuccess = false;
-        }
+
         if($pwd != $pwd2){
             $pwd2Error = 'Password tidak sesuai';
             $isSuccess = false;
@@ -75,8 +70,8 @@
         if($isSuccess) 
         {
             $db = Database::connect();
-            $statement = $db->prepare("INSERT INTO user (name,username,password,level) values(?, ?, ?, ?)");
-            $statement->execute(array($name,$username,md5($pwd),$status));
+            $statement = $db->prepare("INSERT INTO user (name,username,password) values(?, ?, ?)");
+            $statement->execute(array($name,$username,md5($pwd)));
             Database::disconnect();
             header("Location: login.php");
         }
@@ -131,20 +126,6 @@
                         <label for="price">Confirm Password:</label>
                         <input type="password" class="form-control" id="pwd2" name="pwd2" placeholder="Confirm Password" value="<?php echo $pwd2;?>">
                         <span class="help-inline"><?php echo $pwd2Error;?></span>
-                    </div>
-                    <div class="form-group">
-                        <label for="category">Status:</label>
-                        <select class="form-control" id="status" name="status">
-                        <?php
-                           $db = Database::connect();
-                           foreach ($db->query('SELECT * FROM user_type') as $row) 
-                           {
-                                echo '<option value="'. $row['id'] .'">'. $row['type'] . '</option>';;
-                           }
-                           Database::disconnect();
-                        ?>
-                        </select>
-                        <span class="help-inline"><?php echo $statusError;?></span>
                     </div>
                     <br>
                     <div class="form-actions">

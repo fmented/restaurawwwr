@@ -18,6 +18,7 @@
             <div class="row">
                 <h1><strong>List item   </strong>
                 <a href="insert.php" class="btn btn-success btn-lg"><span class="glyphicon glyphicon-plus"></span> Tambah</a>
+                <a href="report.php" class="btn btn-warning btn-lg"><span class="glyphicon glyphicon-th-list"></span> Report</a>
                 <a href="../index.php" class="btn btn-primary btn-lg"><span class="glyphicon glyphicon-home"></span> Halaman Awal</a>
 
                 </h1>

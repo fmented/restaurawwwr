@@ -114,7 +114,7 @@
                     </tr>
                     </thead>
                     </table>
-                            <a href="index.php" class="btn btn-order" role="button"> Selesai </a>
+                            <a href="index.php" class="btn btn-order site" role="button"> Selesai </a>
                     </div>
 
                 </div>

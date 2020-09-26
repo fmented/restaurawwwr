@@ -34,13 +34,17 @@ if (empty($_POST['cash'])) {
     header('Location: cart.php');
 }
 
-$ff = $_POST['cash'] - $_POST['total'];
+else {
+    $ff = $_POST['cash'] - $_POST['total'];
 
-if ($ff < 0) {
-    $succes = false;
-    $_SESSION['cash_error'] = 'Cash kurang dari total belanja';
-    header('Location: cart.php');
+    if ($ff < 0) {
+        $succes = false;
+        $_SESSION['cash_error'] = 'Cash kurang dari total belanja';
+        header('Location: cart.php');
+    }
 }
+
+
 
 if ($succes) {
     $_SESSION['trans_ref'] = createref();
