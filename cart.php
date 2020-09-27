@@ -73,17 +73,6 @@ if (!isset($_SESSION['username'])) {
 
                 <?php
 
-                function is_exist($arr, $src)
-                {
-                    foreach ($arr as $k => $i) {
-                        if ($k == $src) {
-                            return [true, $k];
-                        } elseif (is_array($i) && is_exist($i, $src)) {
-                            return [true, array_search($i, $arr, true)];
-                        }
-                    }
-                    return false;
-                }
 
                 if (!empty($_SESSION['cash_error'])) {
                     $cashError = $_SESSION['cash_error'];
@@ -95,14 +84,19 @@ if (!isset($_SESSION['username'])) {
 
                     if (!empty($_POST['id']) && !empty($_POST['jumlah'])) {
                         if (!empty($_SESSION['cart'])) {
-                            $e = is_exist($_SESSION['cart'], $_POST['id']);
-                            if (!is_bool($e)) {
-                                $_SESSION['cart'][$e[1]] = array($_POST['id'] => $_POST['jumlah']);
-                            } else {
-                                array_push($_SESSION['cart'], array($_POST['id'] => $_POST['jumlah']));
+
+                            if(array_key_exists($_POST['id'], $_SESSION['cart'] )){
+                                $_SESSION['cart'][$_POST['id']]+=$_POST['jumlah'];
+
                             }
+                            else{
+                                $_SESSION['cart'][$_POST['id']]=$_POST['jumlah'];
+
+                            }
+
                         } else {
-                            $_SESSION['cart'] = [array($_POST['id'] => $_POST['jumlah'])];
+                            $_SESSION['cart']=[];
+                            $_SESSION['cart'][$_POST['id']]=$_POST['jumlah'];
                         }
                     }
                 }
@@ -110,9 +104,7 @@ if (!isset($_SESSION['username'])) {
 
                 if (!empty($_SESSION['cart'])) {
                     $total = 0;
-                    foreach ($_SESSION['cart'] as $k => $v) {
-                        foreach ($v as $key => $value) {
-
+                    foreach ($_SESSION['cart'] as $key => $value) {
                             $db = Database::connect();
                             $statement = $db->prepare("SELECT items.id, items.name, items.description, items.price, items.image, categories.name AS category FROM items LEFT JOIN categories ON items.category = categories.id WHERE items.id = ?");
                             $statement->execute(array($key));
@@ -191,7 +183,6 @@ if (!isset($_SESSION['username'])) {
          </script>
          ';
                             $total += (int)$value * (int)$item['price'];
-                        }
                     }
                     $ux = '<div class="form-group">
     <label>Total: <b id="total">' . $total . '</b>K</label>
