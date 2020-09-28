@@ -30,7 +30,7 @@ function checkInput($data)
 <html>
 
 <head>
-  <title>Restaurawwwr</title>
+  <title>Restaurawwwr 📇</title>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
@@ -66,7 +66,7 @@ function checkInput($data)
 
           <br>
           <div class="form-actions">
-            <a class="btn btn-primary" href="index.php"><span class="glyphicon glyphicon-arrow-left"></span> Kembali</a>
+            <a class="btn btn-primary" href="javascript:history.go(-1)"><span class="glyphicon glyphicon-arrow-left"></span> Kembali</a>
           </div>
       </div>
       <div class="col-sm-6 site">

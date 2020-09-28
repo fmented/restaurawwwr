@@ -12,10 +12,24 @@ $list = explode(',', $cart);
 
 $succes = true;
 
-function createref()
+$db = Database::connect();
+$statement = $db->query("SELECT ref FROM transaction");
+$listref = [];
+while($reflist = $statement->fetch()){
+    array_push($listref, $reflist['ref']);
+}
+Database::disconnect();
+
+function createref($lr)
 {
+
     $bytes = random_bytes(8);
-    return bin2hex($bytes);
+    $refcode  = bin2hex($bytes);
+    if (in_array($refcode, $lr)){
+        createref($lr);
+    }
+    return $refcode;
+
 }
 
 function getCashierId()
@@ -47,7 +61,7 @@ else {
 
 
 if ($succes) {
-    $_SESSION['trans_ref'] = createref();
+    $_SESSION['trans_ref'] = createref($listref);
     $cashier = getCashierId();
     $cash = (int)$_POST['cash'];
     $total = (int)$_POST['total'];

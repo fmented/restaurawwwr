@@ -28,7 +28,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Restaurawwwr</title>
+        <title>Restaurawwwr 🗑</title>
         <meta charset="utf-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
@@ -48,8 +48,8 @@
                     <input type="hidden" name="id" value="<?php echo $id;?>"/>
                     <p class="alert alert-warning">Apakah anda yakin ?</p>
                     <div class="form-actions">
-                      <button type="submit" class="btn btn-warning">Ya</button>
-                      <a class="btn btn-default" href="index.php">Tidak</a>
+                      <button type="submit" class="btn btn-danger"><span class="glyphicon glyphicon-ok"></span> Ya</button>
+                      <a class="btn btn-default" href="javascript:history.go(-1)"><span class="glyphicon glyphicon-remove"></span> Tidak</a>
                     </div>
                 </form>
             </div>

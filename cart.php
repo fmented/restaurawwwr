@@ -11,7 +11,7 @@ if (!isset($_SESSION['username'])) {
 <html>
 
 <head>
-    <title>Restaurawwwr</title>
+    <title>Restaurawwwr 🛒</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
@@ -25,7 +25,7 @@ if (!isset($_SESSION['username'])) {
     <h1 class="text-logo"><span class="glyphicon glyphicon-cutlery"></span> Restaurawwwr <span class="glyphicon glyphicon-cutlery"></span></h1>
     <div class="container admin">
         <div class="form-actions">
-            <a class="btn btn-primary" href="index.php"><span class="glyphicon glyphicon-arrow-left"></span> Kembali</a>
+            <a class="btn btn-primary" href="javascript:history.go(-1)"><span class="glyphicon glyphicon-arrow-left"></span> Kembali</a>
             <a class="btn btn-danger" href="empty.php"> Kosongkan Keranjang</a>
 
         </div>
@@ -85,18 +85,14 @@ if (!isset($_SESSION['username'])) {
                     if (!empty($_POST['id']) && !empty($_POST['jumlah'])) {
                         if (!empty($_SESSION['cart'])) {
 
-                            if(array_key_exists($_POST['id'], $_SESSION['cart'] )){
-                                $_SESSION['cart'][$_POST['id']]+=$_POST['jumlah'];
-
+                            if (array_key_exists($_POST['id'], $_SESSION['cart'])) {
+                                $_SESSION['cart'][$_POST['id']] += $_POST['jumlah'];
+                            } else {
+                                $_SESSION['cart'][$_POST['id']] = $_POST['jumlah'];
                             }
-                            else{
-                                $_SESSION['cart'][$_POST['id']]=$_POST['jumlah'];
-
-                            }
-
                         } else {
-                            $_SESSION['cart']=[];
-                            $_SESSION['cart'][$_POST['id']]=$_POST['jumlah'];
+                            $_SESSION['cart'] = [];
+                            $_SESSION['cart'][$_POST['id']] = $_POST['jumlah'];
                         }
                     }
                 }
@@ -105,12 +101,12 @@ if (!isset($_SESSION['username'])) {
                 if (!empty($_SESSION['cart'])) {
                     $total = 0;
                     foreach ($_SESSION['cart'] as $key => $value) {
-                            $db = Database::connect();
-                            $statement = $db->prepare("SELECT items.id, items.name, items.description, items.price, items.image, categories.name AS category FROM items LEFT JOIN categories ON items.category = categories.id WHERE items.id = ?");
-                            $statement->execute(array($key));
-                            $item = $statement->fetch();
-                            Database::disconnect();
-                            echo '
+                        $db = Database::connect();
+                        $statement = $db->prepare("SELECT items.id, items.name, items.description, items.price, items.image, categories.name AS category FROM items LEFT JOIN categories ON items.category = categories.id WHERE items.id = ?");
+                        $statement->execute(array($key));
+                        $item = $statement->fetch();
+                        Database::disconnect();
+                        echo '
                     <div class="col-sm-6">
                     <br>
                    <div class="form-group">
@@ -182,7 +178,7 @@ if (!isset($_SESSION['username'])) {
     
          </script>
          ';
-                            $total += (int)$value * (int)$item['price'];
+                        $total += (int)$value * (int)$item['price'];
                     }
                     $ux = '<div class="form-group">
     <label>Total: <b id="total">' . $total . '</b>K</label>

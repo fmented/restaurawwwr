@@ -7,7 +7,7 @@ if (isset($_SESSION['username'])) {
 <html>
 
 <head>
-    <title>Restaurawwwr</title>
+    <title>Restaurawwwr 👤</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
@@ -110,8 +110,8 @@ if (isset($_SESSION['username'])) {
 
                 <br>
                 <div class="form-actions">
-                    <button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-pencil"></span> Login</button>
-                    <a class="btn btn-primary" href="index.php"><span class="glyphicon glyphicon-arrow-left"></span> Kembali</a>
+                    <button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-user"></span> Login</button>
+                    <a class="btn btn-primary" href="javascript:history.go(-1)"><span class="glyphicon glyphicon-arrow-left"></span> Kembali</a>
                 </div>
                 <br>
                 <a href="register.php">Tidak punya akun?</a>

@@ -5,7 +5,7 @@ function check_admin()
     if (!isset($_SESSION['username'])) {
         header('Location: ../login.php');
     } else {
-        require 'database.php';
+        require '../database.php';
         $db = Database::connect();
         $statement = $db->prepare("SELECT * FROM user WHERE user.username = ?");
         $statement->execute(array($_SESSION['username']));
