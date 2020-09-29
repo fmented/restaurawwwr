@@ -3,18 +3,39 @@ check_admin(); ?>
 <?php
 
 
-function get_transaction()
+if (!empty($_GET['date'])) {
+    $dt = checkInput($_GET['date']);
+}
+function checkInput($data)
+{
+    $data = trim($data);
+    $data = stripslashes($data);
+    $data = htmlspecialchars($data);
+    return $data;
+}
+
+$m = explode('-', $dt);
+
+$x = "SELECT transaction.ref as ref, transaction.date as date, transaction.time as time, transaction.total as total,
+transaction.cash as cash, transaction.cash_change as cc, user.name as cashier 
+ FROM transaction INNER JOIN user on transaction.cashier = user.id where date BETWEEN '%s' AND '%s'";
+
+$q = sprintf($x, $dt . "-01", $dt . "-31");
+require './months.php';
+
+
+function get_transaction($qr, $x)
 {
     $str = '';
     $db = Database::connect();
-    $statement = $db->query("SELECT transaction.ref as ref, transaction.date as date, transaction.total as total,
-                            transaction.cash as cash, transaction.cash_change as cc, user.name as cashier 
-                             FROM transaction INNER JOIN user on transaction.cashier = user.id");
+    $statement = $db->query($qr);
+
     $str .= '<table class="table">
     <thead>
         <tr>
             <th>Code Transaksi</th>
             <th>Tanggal Transaksi</th>
+            <th>Waktu Transaksi</th>
             <th>Total Belaja</th>
             <th>Cash Dibayarkan</th>
             <th>Kembalian</th>
@@ -24,13 +45,12 @@ function get_transaction()
     <tbody>
     
     ';
-    require './months.php';
-
     while ($item = $statement->fetch()) {
-        $datedetail = explode("-", $item['date']);
+        $d = explode('-', $item['date']);
         $str .= ' <tr>
                     <td><a href="shop_history.php?ref=' . $item['ref'] . '">' . $item['ref'] . '</a></td>
-                    <td><a href="date_report.php?date=' . $item['date'] . '">' . $datedetail[2] . '</a> <a href="month_report.php?date=' . $datedetail[0] . '-' . $datedetail[1] . '">' . $months[$datedetail[1]] . '</a> <a href="year_report.php?date=' . $datedetail[0] . '">' . $datedetail[0] . '</a></td>
+                    <td><a href="date_report.php?date=' . $x . '-' . $d[2] . '">  ' . $d[2] . '</a></td>
+                    <td>' . $item['time'] . '</td>
                     <td>' . $item['total'] . '</td>
                     <td>' . $item['cash'] . '</td>
                     <td>' . $item['cc'] . '</td>
@@ -66,12 +86,14 @@ function get_transaction()
     <h1 class="text-logo"><span class="glyphicon glyphicon-cutlery"></span> Restaurawwwr <span class="glyphicon glyphicon-cutlery"></span></h1>
     <div class="container admin">
         <div class="row">
-            <h1><strong>Transaction Reports</strong></h1>
+            <h1><strong><?php echo $months[$m[1]] . ' ' . $m[0]; ?> Reports</strong></h1>
             <br>
             <div class="table-responsive">
-                <?php echo get_transaction(); ?>
+                <?php echo get_transaction($q, $dt); ?>
                 <br>
             </div>
+            <!-- <?php echo $q;
+                    echo $_GET['date']; ?> -->
             <div class="form-actions">
                 <a class="btn btn-primary" href="javascript:history.go(-1)"><span class="glyphicon glyphicon-arrow-left"></span> Kembali</a>
             </div>
